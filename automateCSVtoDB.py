@@ -1,14 +1,10 @@
 import csv
 import psycopg2
+import os
+from dotenv import load_dotenv
 
-# Database connection details
-db_config = {
-    'dbname': 'price_comparison',  # Your database name
-    'user': 'lalmonte',            # Your PostgreSQL username
-    'password': 'password123',   # Your PostgreSQL password
-    'host': 'localhost',           # Your database host
-    'port': '5432'                 # Your database port
-}
+load_dotenv()
+
 
 # Path to your CSV file
 csv_file = '/Users/lalmonte/Documents/Projects/Active/FBA Sourcing/Buy List.csv'
@@ -29,7 +25,13 @@ required_columns = [
 
 try:
     # Connect to the database
-    conn = psycopg2.connect(**db_config)
+    conn = psycopg2.connect(
+            dbname=os.getenv('DB_NAME'),
+            user=os.getenv('DB_USER'),
+            password=os.getenv('DB_PASSWORD'),
+            host=os.getenv('DB_HOST'),
+            port=os.getenv('DB_PORT'),
+        )
     cur = conn.cursor()
     print("Connected to the database!")
 
